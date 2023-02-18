@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnboardingTest", "OnboardingTest\OnboardingTest.csproj", "{01419CFF-001F-491A-A4AC-872DC894D640}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01419CFF-001F-491A-A4AC-872DC894D640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01419CFF-001F-491A-A4AC-872DC894D640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01419CFF-001F-491A-A4AC-872DC894D640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01419CFF-001F-491A-A4AC-872DC894D640}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
