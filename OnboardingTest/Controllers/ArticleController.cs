@@ -23,22 +23,52 @@ public class ArticleController : ControllerBase
         {
             return NotFound();
         }
-        return await _db.Articles.ToListAsync();
+        
+        var articles = await _db.Articles
+            .Include(a => a.Category)
+            .ToListAsync();
+
+        return articles;
     }
     
     // GET: api/Article/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Article>> GetArticle(int id)
+    // [HttpGet("{id}")]
+    // public async Task<ActionResult<Article>> GetArticle(int id)
+    // {
+    //     if (_db.Articles == null)
+    //         return NotFound();
+    //
+    //     var article = _db.Articles
+    //         .Include(a => a.Category).FirstOrDefault(a => a.Id == id);
+    //
+    //     if (article == null)
+    //         return NotFound();
+    //
+    //     return article;
+    // }
+    
+    // GET: api/Article/5
+    [HttpGet("{d}")]
+    public async Task<ActionResult<NWArticle>> GetArticle(int id)
     {
         if (_db.Articles == null)
             return NotFound();
 
-        var article = await _db.Articles.FindAsync(id);
+        var article = _db.Articles
+            .Include(a => a.Category).FirstOrDefault(a => a.Id == id);
 
         if (article == null)
             return NotFound();
 
-        return article;
+        var nwArticle = new NWArticle
+        {
+            Id = article.Id,
+            Text = article.Text,
+            Title = article.Title,
+            Category = article.Category
+        };
+
+        return nwArticle;
     }
 
     // PUT: api/Article/5
@@ -107,6 +137,9 @@ public class ArticleController : ControllerBase
         {
             return Problem("Entity set 'ApplicationContext.Articles'  is null.");
         }
+
+        article.CategoryId = article.Category.Id;
+        article.Category = null;
         _db.Articles.Add(article);
         await _db.SaveChangesAsync();
 

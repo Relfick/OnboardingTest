@@ -10,7 +10,7 @@ public sealed class ApplicationContext: DbContext
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
-        Database.EnsureDeleted();
+        // Database.EnsureDeleted();
         Database.EnsureCreated();
     }
 
@@ -32,10 +32,10 @@ public sealed class ApplicationContext: DbContext
         builder.Property(article => article.Id).HasColumnName("id");
         builder.Property(article => article.Title).HasColumnName("title");
         builder.Property(article => article.Text).HasColumnName("text");
-        // builder.Property(article => article.Category).HasColumnName("category");
+        builder.Property(article => article.CategoryId).HasColumnName("category_id");
         // builder.Property("CategoryId").HasColumnName("category_id");
-        builder
-            .HasOne(article => article.Category)
-            .WithMany(category => category.Articles);
+        // builder
+            // .HasOne(article => article.Category)
+            // .WithMany(category => category.Articles);
     }
 }
