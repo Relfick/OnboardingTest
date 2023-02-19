@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace OnboardingTest.Models;
 
-public class Category
+public class Department
 {
     public int Id { get; set; }
     
@@ -11,5 +11,5 @@ public class Category
     public string Name { get; set; }
 
     [JsonIgnore]
-    public List<Article> Articles { get; set; } = new();
+    public List<Employee> Employees { get; set; } = new();
 }

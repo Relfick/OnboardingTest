@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using OnboardingTest.Models;
 
 namespace OnboardingTest.Controllers;
@@ -26,6 +27,40 @@ public class CategoryController : ControllerBase
 
         return await _db.Categories.ToListAsync();
     }
+    
+    // GET: api/Category
+    [HttpGet]
+    [Route("~/api/tg/category")]
+    public async Task<ActionResult<IEnumerable<Category>>> GetCategoriesTg([FromHeader] TelegramCredentials tgCredentials)
+    {
+        if (_db.Categories == null)
+        {
+            return NotFound();
+        }
+
+        if (tgCredentials == null)
+        {
+            return NotFound();
+        }
+
+        var userExists = _db.Employees.Any(e => e.TgUserId == tgCredentials.Id);
+
+        if (!userExists)
+        {
+            return NotFound();
+        }
+
+        return await GetCategories();
+        
+        
+        // var headers = httpContextAccessor.HttpContext.Request.Headers;
+        // headers.TryGetValue("tgUserId", out StringValues tgUserId);
+        // if (tgUserId.)
+        // {
+        //     
+        // }
+    } 
+    
 
     // GET: api/Category/5
     [HttpGet("{id}")]
@@ -34,12 +69,12 @@ public class CategoryController : ControllerBase
         if (_db.Categories == null)
             return NotFound();
 
-        var Category = await _db.Categories.FindAsync(id);
+        var category = await _db.Categories.FindAsync(id);
 
-        if (Category == null)
+        if (category == null)
             return NotFound();
 
-        return Category;
+        return category;
     }
     
     [HttpPost]

@@ -47,8 +47,9 @@ public class ArticleController : ControllerBase
     //     return article;
     // }
     
+    
     // GET: api/Article/5
-    [HttpGet("{d}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<NWArticle>> GetArticle(int id)
     {
         if (_db.Articles == null)
@@ -69,6 +70,35 @@ public class ArticleController : ControllerBase
         };
 
         return nwArticle;
+    }
+    
+    // GET: api/Article/search/?category
+    [HttpGet]
+    [Route("search")]
+    public async Task<ActionResult<List<NWArticle>>> GetArticles([FromQuery] int category)
+    {
+        if (_db.Articles == null)
+            return NotFound();
+
+        var articles = await _db.Articles
+            .Include(a => a.Category)
+            .Where(a => a.Category.Id == category)
+            .ToListAsync();
+
+        if (articles == null)
+            return NotFound();
+
+        var nwArticles = articles
+            .Select(a => new NWArticle
+            {
+                Id = a.Id,
+                Text = a.Text,
+                Title = a.Title,
+                Category = a.Category
+            })
+            .ToList();
+
+        return nwArticles;
     }
 
     // PUT: api/Article/5
